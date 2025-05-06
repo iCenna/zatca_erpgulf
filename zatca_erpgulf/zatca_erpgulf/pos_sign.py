@@ -1224,7 +1224,7 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
     If the invoice is already submitted, call `zatca_background_on_submit`.
     Otherwise, submit the invoice.
     """
-    return
+
     if isinstance(invoice_numbers, str):
         invoice_numbers = frappe.parse_json(invoice_numbers)
 
@@ -1233,6 +1233,8 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
         try:
             # Fetch the Sales Invoice document
             pos_invoice_doc = frappe.get_doc("POS Invoice", invoice_number)
+            if not pos_invoice_doc.get('is_return'):
+                continue
             company_doc = frappe.get_doc("Company", pos_invoice_doc.company)
 
             if (
@@ -1242,12 +1244,12 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
                 zatca_background_on_submit(
                     pos_invoice_doc, bypass_background_check=True
                 )
-
-            elif company_doc.custom_submit_or_not == 1:
-                pos_invoice_doc.submit()
-                zatca_background_on_submit(
-                    pos_invoice_doc, bypass_background_check=True
-                )
+            #
+            # elif company_doc.custom_submit_or_not == 1:
+            #     pos_invoice_doc.submit()
+            #     zatca_background_on_submit(
+            #         pos_invoice_doc, bypass_background_check=True
+            #     )
 
         except (ValueError, TypeError, KeyError, frappe.ValidationError) as e:
             frappe.throw(_(f"Error in background call: {str(e)}"))

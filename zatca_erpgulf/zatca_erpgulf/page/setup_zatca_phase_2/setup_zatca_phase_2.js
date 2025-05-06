@@ -152,7 +152,7 @@ frappe.pages["setup-zatca-phase-2"].on_page_load = function (wrapper) {
 					fieldtype: "HTML",
 					options: `
 			  <div style="text-align: center;">
-				<img src="/assets/zatca_erpgulf/images/ERPGulf.png" alt="ERPGulf" style="max-width: 120px;">
+				<img src="/assets/zatca_erpgulf/images/ERPGulf.png" alt="iCenna" style="max-width: 120px;">
 				<h2>Zatca Phase 2 Wizard</h2>
 				<p>Fill out the form carefully for successful Zatca Phase 2 Integration</p>
 			  </div>
