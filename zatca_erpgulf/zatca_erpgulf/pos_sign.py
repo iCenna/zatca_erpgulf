@@ -1237,9 +1237,7 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
                 continue
             company_doc = frappe.get_doc("Company", pos_invoice_doc.company)
 
-            if (
-                pos_invoice_doc.docstatus == 1
-            ):  # Check if the invoice is already submitted
+            if pos_invoice_doc.docstatus == 1:  # Check if the invoice is already submitted
                 # Call the zatca_background_on_submit function
                 zatca_background_on_submit(
                     pos_invoice_doc, bypass_background_check=True
