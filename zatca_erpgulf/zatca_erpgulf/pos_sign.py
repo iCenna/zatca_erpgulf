@@ -1010,11 +1010,14 @@ def is_qr_and_xml_attached(sales_invoice_doc):
 def zatca_background_on_submit(doc, _method=None, bypass_background_check=False):
     """Function for zatca background on submit"""
 
+    # return
     try:
         source_doc = doc
         pos_invoice_doc = doc
         invoice_number = pos_invoice_doc.name
         pos_invoice_doc = frappe.get_doc("POS Invoice", invoice_number)
+        create_qr_code(pos_invoice_doc, method=None)
+        return
         company_abbr = frappe.db.get_value(
             "Company", {"name": pos_invoice_doc.company}, "abbr"
         )
@@ -1153,7 +1156,7 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
                         + str(invoice_number)
                     )
                 )
-        if settings.custom_phase_1_or_2 == "Phase-2":
+        if settings.custom_phase_1_or_2 == "Phase-2" and False:
             if field_exists and pos_invoice_doc.custom_unique_id:
                 if not pos_invoice_doc.custom_zatca_pos_name:
                     frappe.throw(_("pos name required"))
@@ -1221,6 +1224,7 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
     If the invoice is already submitted, call `zatca_background_on_submit`.
     Otherwise, submit the invoice.
     """
+    return
     if isinstance(invoice_numbers, str):
         invoice_numbers = frappe.parse_json(invoice_numbers)
 
