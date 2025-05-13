@@ -1208,6 +1208,12 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
         sales_invoice_doc = doc
         invoice_number = sales_invoice_doc.name
         sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        if sales_invoice_doc.get('is_return'):
+            if sales_invoice_doc.get('return_against') is None:
+                sales_invoice_doc.set_return_against()
+                frappe.db.commit()
+                sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+
         company_abbr = frappe.db.get_value(
             "Company", {"name": sales_invoice_doc.company}, "abbr"
         )
