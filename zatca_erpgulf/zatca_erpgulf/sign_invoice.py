@@ -968,6 +968,12 @@ def zatca_background(invoice_number, source_doc, bypass_background_check=False):
         if source_doc:
             source_doc = frappe.get_doc(json.loads(source_doc))
         sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        if sales_invoice_doc.get('is_return'):
+            if sales_invoice_doc.get('return_against') is None:
+                sales_invoice_doc.set_return_against()
+                frappe.db.commit()
+                sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
         company_name = sales_invoice_doc.company
         settings = frappe.get_doc("Company", company_name)
         company_abbr = settings.abbr
