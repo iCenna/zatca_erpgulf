@@ -1010,7 +1010,7 @@ def is_qr_and_xml_attached(sales_invoice_doc):
 def zatca_background_on_submit(doc, _method=None, bypass_background_check=False):
     """Function for zatca background on submit"""
 
-    # return
+    return
     try:
         source_doc = doc
         pos_invoice_doc = doc
@@ -1224,7 +1224,7 @@ def resubmit_invoices_pos(invoice_numbers, bypass_background_check=False):
     If the invoice is already submitted, call `zatca_background_on_submit`.
     Otherwise, submit the invoice.
     """
-
+    return
     if isinstance(invoice_numbers, str):
         invoice_numbers = frappe.parse_json(invoice_numbers)
 
