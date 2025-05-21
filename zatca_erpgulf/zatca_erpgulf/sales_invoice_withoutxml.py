@@ -334,9 +334,12 @@ def reporting_api_sales_withoutxml(
                         commit=True,
                         update_modified=True,
                     )
-                    from icenna.utils.utils import send_email
-                    send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
-                               message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
+                    frappe.sendmail(with_container=True, recipients="erp-alerts@icenna.com",
+                                    subject="Failed to REPORT Sales Invoice to ZATCA",
+                                    message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}",
+                                    delayed=False,
+                                    as_markdown=True,
+                                    sender="", reference_doctype=None, reference_name=None)
                     frappe.throw(
                         _(
                             (
@@ -368,9 +371,12 @@ def reporting_api_sales_withoutxml(
                         commit=True,
                         update_modified=True,
                     )
-                    from icenna.utils.utils import send_email
-                    send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
-                               message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
+                    frappe.sendmail(with_container=True, recipients="erp-alerts@icenna.com",
+                                    subject="Failed to REPORT Sales Invoice to ZATCA",
+                                    message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}",
+                                    delayed=False,
+                                    as_markdown=True,
+                                    sender="", reference_doctype=None, reference_name=None)
                     frappe.throw(
                         _(
                             (
@@ -403,9 +409,12 @@ def reporting_api_sales_withoutxml(
                         commit=True,
                         update_modified=True,
                     )
-                    from icenna.utils.utils import send_email
-                    send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
-                               message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
+                    frappe.sendmail(with_container=True, recipients="erp-alerts@icenna.com",
+                                    subject="Failed to REPORT Sales Invoice to ZATCA",
+                                    message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}",
+                                    delayed=False,
+                                    as_markdown=True,
+                                    sender="", reference_doctype=None, reference_name=None)
                     frappe.throw(
                         _(
                             (
@@ -461,14 +470,20 @@ def reporting_api_sales_withoutxml(
 
                     success_log(response.text, uuid1, invoice_number)
                 else:
-                    from icenna.utils.utils import send_email
-                    send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
-                               message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
+                    frappe.sendmail(with_container=True, recipients="erp-alerts@icenna.com",
+                                    subject="Failed to REPORT Sales Invoice to ZATCA",
+                                    message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}",
+                                    delayed=False,
+                                    as_markdown=True,
+                                    sender="", reference_doctype=None, reference_name=None)
                     error_log()
             except (ValueError, TypeError, KeyError, frappe.ValidationError) as e:
-                from icenna.utils.utils import send_email
-                send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
-                           message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
+                frappe.sendmail(with_container=True, recipients="erp-alerts@icenna.com",
+                                subject="Failed to REPORT Sales Invoice to ZATCA",
+                                message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}",
+                                delayed=False,
+                                as_markdown=True,
+                                sender="", reference_doctype=None, reference_name=None)
                 frappe.throw(
                     _(f"Error in reporting API-2 sales invoice with xml: {str(e)}")
                 )
