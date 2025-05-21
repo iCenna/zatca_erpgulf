@@ -974,6 +974,18 @@ def zatca_background(invoice_number, source_doc, bypass_background_check=False):
                 sales_invoice_doc.set_return_against()
                 frappe.db.commit()
                 sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        xml_file = frappe.db.exists(
+            "File",
+            {
+                "attached_to_doctype": sales_invoice_doc.doctype,
+                "attached_to_name": sales_invoice_doc.name,
+                "file_name": ["like", REPORTED_XML],
+            }
+        )
+        if xml_file:
+            file_doc = frappe.get_doc('File',xml_file)
+            file_doc.delete(ignore_permissions=True)
+            frappe.db.commit()
         company_name = sales_invoice_doc.company
         settings = frappe.get_doc("Company", company_name)
         company_abbr = settings.abbr
