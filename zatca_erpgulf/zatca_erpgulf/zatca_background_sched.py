@@ -235,6 +235,9 @@ def zatca_call_scheduler_background(
             attach_qr_image(qrcodeb64, sales_invoice_doc)
 
     except (ValueError, TypeError, KeyError, frappe.ValidationError) as e:
+        from icenna.utils.utils import send_email
+        send_email("erp-alerts@icenna.com", "Failed to REPORT Sales Invoice to ZATCA",
+                   message=f"An Error while reporting sales invoice to ZATCA {invoice_number} , Plz check in the following url {frappe.utils.get_url()}/app/sales-invoice/{invoice_number}")
         frappe.log_error(
             title="Zatca invoice call failed",
             message=f"{frappe.get_traceback()}\nError: {str(e)}",
