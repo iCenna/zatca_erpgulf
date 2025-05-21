@@ -267,6 +267,11 @@ def update_invoice_status(invoice_number, status, uuid1=None, msg=None):
         commit=True,
         update_modified=True,
     )
+    if status not in ["REPORTED",'CLEARED']:
+        try:
+            invoice_doc.send_failure_alert()
+        except:
+            pass
 
 
 def update_company_or_pos_settings(sales_invoice_doc, encoded_hash, msg):
