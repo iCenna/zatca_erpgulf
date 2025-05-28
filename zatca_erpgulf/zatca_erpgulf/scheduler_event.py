@@ -39,59 +39,59 @@ def submit_invoices_to_zatca_background():
     try:
         current_time = now_datetime().time()
 
-        companies = frappe.get_all(
-            "Company",
-            fields=[
-                "name",
-                "custom_start_time",
-                "custom_end_time",
-                "custom_start_time_session",
-                "custom_end_time_session",
-                "custom_send_invoice_to_zatca",
-                "custom_submit_or_not",
-            ],
-        )
-
-        company_summary = "\n".join(
-            [
-                f"{c['name']}: send_invoice={c['custom_send_invoice_to_zatca']}, submit={c['custom_submit_or_not']}"
-                for c in companies
-            ]
-        )
+        # companies = frappe.get_all(
+        #     "Company",
+        #     fields=[
+        #         "name",
+        #         "custom_start_time",
+        #         "custom_end_time",
+        #         "custom_start_time_session",
+        #         "custom_end_time_session",
+        #         "custom_send_invoice_to_zatca",
+        #         "custom_submit_or_not",
+        #     ],
+        # )
+        #
+        # company_summary = "\n".join(
+        #     [
+        #         f"{c['name']}: send_invoice={c['custom_send_invoice_to_zatca']}, submit={c['custom_submit_or_not']}"
+        #         for c in companies
+        #     ]
+        # )
 
         # frappe.log_error(title="ZATCA Companies Debug", message=company_summary)
 
         any_company_in_range = False
 
-        for company in companies:
-            start_end_times = [
-                (company.custom_start_time, company.custom_end_time),
-                (company.custom_start_time_session, company.custom_end_time_session),
-            ]
-
-            valid_time_found = False
-
-            for start, end in start_end_times:
-                if start is not None and end is not None:
-                    start_time = convert_to_time(start)
-                    end_time = convert_to_time(end)
-
-                    if is_time_in_range(start_time, end_time, current_time):
-                        valid_time_found = True
-
-                        break
-
-            if (
-                valid_time_found
-                and company.custom_send_invoice_to_zatca == "Background"
-            ):
-                any_company_in_range = True
-                break
-            else:
-                pass
-
-        if not any_company_in_range:
-            return
+        # for company in companies:
+        #     start_end_times = [
+        #         (company.custom_start_time, company.custom_end_time),
+        #         (company.custom_start_time_session, company.custom_end_time_session),
+        #     ]
+        #
+        #     valid_time_found = False
+        #
+        #     for start, end in start_end_times:
+        #         if start is not None and end is not None:
+        #             start_time = convert_to_time(start)
+        #             end_time = convert_to_time(end)
+        #
+        #             if is_time_in_range(start_time, end_time, current_time):
+        #                 valid_time_found = True
+        #
+        #                 break
+        #
+        #     if (
+        #         valid_time_found
+        #         and company.custom_send_invoice_to_zatca == "Background"
+        #     ):
+        #         any_company_in_range = True
+        #         break
+        #     else:
+        #         pass
+        #
+        # if not any_company_in_range:
+        #     return
 
         past_24_hours_time = add_to_date(now_datetime(), hours=-24)
         not_submitted_invoices = frappe.get_all(

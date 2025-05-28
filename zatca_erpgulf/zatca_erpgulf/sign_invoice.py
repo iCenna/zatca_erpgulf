@@ -1480,6 +1480,20 @@ def resubmit_invoices(invoice_numbers, bypass_background_check=False):
                 sales_invoice_doc.docstatus == 1
             ):  # Check if the invoice is already submitted
                 # Call the zatca_background_on_submit function
+
+                xml_file = frappe.db.exists(
+                    "File",
+                    {
+                        "attached_to_doctype": sales_invoice_doc.doctype,
+                        "attached_to_name": sales_invoice_doc.name,
+                        "file_name": ["like", REPORTED_XML],
+                    }
+                )
+                if xml_file:
+                    file_doc = frappe.get_doc('File', xml_file)
+                    file_doc.delete(ignore_permissions=True)
+                    frappe.db.commit()
+
                 zatca_background_on_submit(
                     sales_invoice_doc, bypass_background_check=True
                 )
