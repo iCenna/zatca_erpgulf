@@ -1010,6 +1010,17 @@ def zatca_background(invoice_number, source_doc, bypass_background_check=False):
             file_doc = frappe.get_doc('File',xml_file)
             file_doc.delete(ignore_permissions=True)
             frappe.db.commit()
+            qr_code = frappe.db.exists(
+            "File",
+            {
+                "attached_to_doctype": sales_invoice_doc.doctype,
+                "attached_to_name": sales_invoice_doc.name,
+                "file_name": ["like", '%QRCode%'],
+            }
+        )
+            file_doc = frappe.get_doc('File', qr_code)
+            file_doc.delete(ignore_permissions=True)
+            frappe.db.commit()
         company_name = sales_invoice_doc.company
         settings = frappe.get_doc("Company", company_name)
         company_abbr = settings.abbr
@@ -1491,6 +1502,17 @@ def resubmit_invoices(invoice_numbers, bypass_background_check=False):
                 )
                 if xml_file:
                     file_doc = frappe.get_doc('File', xml_file)
+                    file_doc.delete(ignore_permissions=True)
+                    frappe.db.commit()
+                    qr_code = frappe.db.exists(
+                        "File",
+                        {
+                            "attached_to_doctype": sales_invoice_doc.doctype,
+                            "attached_to_name": sales_invoice_doc.name,
+                            "file_name": ["like", '%QRCode%'],
+                        }
+                    )
+                    file_doc = frappe.get_doc('File', qr_code)
                     file_doc.delete(ignore_permissions=True)
                     frappe.db.commit()
 
