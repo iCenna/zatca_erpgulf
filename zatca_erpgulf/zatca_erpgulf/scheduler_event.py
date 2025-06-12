@@ -139,11 +139,11 @@ def submit_invoices_to_zatca_background():
 def submit_invoices_to_zatca_background_process():
     """Submit invoices to ZATCA only if at least one company falls within the time range."""
     try:
-        # past_24_hours_time = add_to_date(now_datetime(), hours=-24)
+        past_24_hours_time = add_to_date(now_datetime(), hours=-48)
         sales_invoices = frappe.get_all(
             "Sales Invoice",
             filters=[
-                # ["creation", ">=", past_24_hours_time],
+                ["creation", ">=", past_24_hours_time],
                 ["docstatus", "in", [0, 1]],
                 [
                     "custom_zatca_status",
