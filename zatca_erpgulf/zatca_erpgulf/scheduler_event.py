@@ -112,6 +112,8 @@ def submit_invoices_to_zatca_background():
             try:
                 sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice["name"])
                 company_doc = frappe.get_doc("Company", sales_invoice_doc.company)
+                if not (company_doc.get('custom_zatca_invoice_enabled') == 1 and company_doc.get('custom_phase_1_or_2') == 'Phase-2'):
+                    continue
                 if sales_invoice_doc.docstatus == 1:
                     zatca_background_on_submit(
                         sales_invoice_doc, bypass_background_check=True
