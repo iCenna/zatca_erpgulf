@@ -1261,6 +1261,11 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
         sales_invoice_doc = doc
         invoice_number = sales_invoice_doc.name
         sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        if sales_invoice_doc.get('healthcare_service_unit'):
+            service_unit = frappe.get_doc('Healthcare Service Unit',
+                                          sales_invoice_doc.get('healthcare_service_unit'))
+            if not service_unit.get('custom_zatca_enabled'):
+                return
         if sales_invoice_doc.get('is_return'):
             if sales_invoice_doc.get('return_against') is None:
                 sales_invoice_doc.set_return_against()
