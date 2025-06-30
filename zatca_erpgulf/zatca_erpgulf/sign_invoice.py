@@ -1261,6 +1261,17 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
         sales_invoice_doc = doc
         invoice_number = sales_invoice_doc.name
         sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        if sales_invoice_doc.get('custom_b2c'):
+            customer_zatca_id_type = frappe.db.get_value('Customer',
+                                                         sales_invoice_doc.get('customer'),
+                                                         'custom_buyer_id_type')
+            if customer_zatca_id_type != 'IQA':
+                frappe.db.set_value('Customer',
+                                    sales_invoice_doc.get('customer'),
+                                    'custom_buyer_id_type',
+                                    'IQA',
+                                    update_modified=False)
+                frappe.db.commit()
         if sales_invoice_doc.get('healthcare_service_unit'):
             service_unit = frappe.get_doc('Healthcare Service Unit',
                                           sales_invoice_doc.get('healthcare_service_unit'))
