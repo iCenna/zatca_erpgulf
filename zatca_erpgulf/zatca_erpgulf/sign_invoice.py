@@ -1261,6 +1261,17 @@ def zatca_background_on_submit(doc, _method=None, bypass_background_check=False)
         sales_invoice_doc = doc
         invoice_number = sales_invoice_doc.name
         sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice_number)
+        qr_code = sales_invoice_doc.get("ksa_einv_qr")
+        if qr_code and frappe.db.exists({"doctype": "File", "file_url": qr_code}):
+            file_doc = frappe.get_doc("File",{
+                "file_url": qr_code
+            })
+            file_doc.delete(ignore_permissions=True)
+            frappe.db.commit()
+            sales_invoice_doc.set('ksa_einv_qr',None)
+            create_qr_code(sales_invoice_doc)
+            frappe.db.commit()
+
         if sales_invoice_doc.get('custom_b2c'):
             customer_zatca_id_type = frappe.db.get_value('Customer',
                                                          sales_invoice_doc.get('customer'),
