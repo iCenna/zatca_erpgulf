@@ -157,6 +157,6 @@ def create_qr_code(doc, method=None):  # pylint: disable=unused-argument
         # assigning to document
         doc.db_set("ksa_einv_qr", _file.file_url)
         doc.notify_update()
-        doc.set('ksa_einv_qr',_file.file_url)
+        # doc.set('ksa_einv_qr',_file.file_url)
         frappe.db.commit()
         return _file.file_url
