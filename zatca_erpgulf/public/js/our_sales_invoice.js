@@ -169,97 +169,97 @@ frappe.ui.form.on("Sales Invoice", {
 
 frappe.ui.form.on('Sales Invoice', {
     refresh: function (frm) {
-        const fieldsWithTooltips = [
-            {
-                fieldname: "custom_zatca_third_party_invoice",
-                text: `
-                    An external party such as an accounting firm can issue invoices on behalf of the seller after fulfilling specific requirements as mentioned in the VAT legislation.
-                `,
-                links: [
-                    "https://docs.claudion.com/Claudion-Docs/Third%20party",
-                ],
-            },
-            {
-                fieldname: "custom_zatca_nominal_invoice",
-                text: `
-                    A taxable person provides goods or services to a customer at no cost or at a reduced price, typically as part of a promotional activity.
-                `,
-                links: [
-                    "https://docs.claudion.com/Claudion-Docs/nominal",
-                ],
-            },
-            {
-                fieldname: "custom_zatca_export_invoice",
-                text: `
-                    The supplier and customer both intend that the goods are transported outside the GCC territory as a consequence of that supply.
-                `,
-                links: [
-                    "https://docs.claudion.com/Claudion-Docs/export",
-                ],
-            },
-            {
-                fieldname: "custom_summary_invoice",
-                text: `
-                    Summary tax invoices are issued where there is more than one supply of goods or services.
-                `,
-                links: [
-                    "https://docs.claudion.com/Claudion-Docs/Summary%20invoice",
-                ],
-            },
-            {
-                fieldname: "custom_self_billed_invoice",
-                text: `
-                    Self-billing is a case where the buyer raises a tax invoice for the goods and services received on behalf of the vendor.
-                `,
-                links: [
-                    "https://docs.claudion.com/Claudion-Docs/selfbilled",
-                ],
-            },
-        ];
-        applyTooltips(frm, fieldsWithTooltips);
-        const css = `
-            .popover-content {
-                font-family: Arial, sans-serif;
-                background-color: #f9f9f9;
-                color: #007bff; /* Blue text */
-                border: 1px solid #cfe2f3;
-                border-radius: 8px;
-                padding: 15px;
-                max-width: 300px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-
-            .popover-title {
-                font-size: 16px;
-                font-weight: bold;
-                color: #0056b3; /* Darker blue for the title */
-                margin-bottom: 10px;
-            }
-
-            .popover-body {
-                font-size: 14px;
-                line-height: 1.6;
-                color: #007bff;
-            }
-        `;
-        $('<style>').text(css).appendTo('head'); // Add the CSS dynamically
-
-        // Attach popover to the "subject" field
-        const attachPopover = (fieldname, title, body) => {
-            setTimeout(() => {
-                $(`[data-fieldname="${fieldname}"]`).popover({
-                    trigger: 'hover',
-                    placement: 'top',
-                    content: `
-                        <div class="popover-content">
-                            <h4 class="popover-title">${title}</h4>
-                            <p class="popover-body">${body}</p>
-                        </div>
-                    `,
-                    html: true
-                });
-            }, 500);
-        };
+        // const fieldsWithTooltips = [
+        //     {
+        //         fieldname: "custom_zatca_third_party_invoice",
+        //         text: `
+        //             An external party such as an accounting firm can issue invoices on behalf of the seller after fulfilling specific requirements as mentioned in the VAT legislation.
+        //         `,
+        //         links: [
+        //             "https://docs.claudion.com/Claudion-Docs/Third%20party",
+        //         ],
+        //     },
+        //     {
+        //         fieldname: "custom_zatca_nominal_invoice",
+        //         text: `
+        //             A taxable person provides goods or services to a customer at no cost or at a reduced price, typically as part of a promotional activity.
+        //         `,
+        //         links: [
+        //             "https://docs.claudion.com/Claudion-Docs/nominal",
+        //         ],
+        //     },
+        //     {
+        //         fieldname: "custom_zatca_export_invoice",
+        //         text: `
+        //             The supplier and customer both intend that the goods are transported outside the GCC territory as a consequence of that supply.
+        //         `,
+        //         links: [
+        //             "https://docs.claudion.com/Claudion-Docs/export",
+        //         ],
+        //     },
+        //     {
+        //         fieldname: "custom_summary_invoice",
+        //         text: `
+        //             Summary tax invoices are issued where there is more than one supply of goods or services.
+        //         `,
+        //         links: [
+        //             "https://docs.claudion.com/Claudion-Docs/Summary%20invoice",
+        //         ],
+        //     },
+        //     {
+        //         fieldname: "custom_self_billed_invoice",
+        //         text: `
+        //             Self-billing is a case where the buyer raises a tax invoice for the goods and services received on behalf of the vendor.
+        //         `,
+        //         links: [
+        //             "https://docs.claudion.com/Claudion-Docs/selfbilled",
+        //         ],
+        //     },
+        // ];
+        // applyTooltips(frm, fieldsWithTooltips);
+        // const css = `
+        //     .popover-content {
+        //         font-family: Arial, sans-serif;
+        //         background-color: #f9f9f9;
+        //         color: #007bff; /* Blue text */
+        //         border: 1px solid #cfe2f3;
+        //         border-radius: 8px;
+        //         padding: 15px;
+        //         max-width: 300px;
+        //         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        //     }
+        //
+        //     .popover-title {
+        //         font-size: 16px;
+        //         font-weight: bold;
+        //         color: #0056b3; /* Darker blue for the title */
+        //         margin-bottom: 10px;
+        //     }
+        //
+        //     .popover-body {
+        //         font-size: 14px;
+        //         line-height: 1.6;
+        //         color: #007bff;
+        //     }
+        // `;
+        // $('<style>').text(css).appendTo('head'); // Add the CSS dynamically
+        //
+        // // Attach popover to the "subject" field
+        // const attachPopover = (fieldname, title, body) => {
+        //     setTimeout(() => {
+        //         $(`[data-fieldname="${fieldname}"]`).popover({
+        //             trigger: 'hover',
+        //             placement: 'top',
+        //             content: `
+        //                 <div class="popover-content">
+        //                     <h4 class="popover-title">${title}</h4>
+        //                     <p class="popover-body">${body}</p>
+        //                 </div>
+        //             `,
+        //             html: true
+        //         });
+        //     }, 500);
+        // };
 
         // Attach popovers to specific fields
 

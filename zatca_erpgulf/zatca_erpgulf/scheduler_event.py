@@ -10,6 +10,7 @@ from zatca_erpgulf.zatca_erpgulf.schedule_pos import (
     submit_posinvoices_to_zatca_background_process,
 )
 
+
 # frappe.init(site="zatca.erpgulf.com")
 # frappe.connect()
 
@@ -62,7 +63,12 @@ def submit_invoices_to_zatca_background():
         # frappe.log_error(title="ZATCA Companies Debug", message=company_summary)
 
         any_company_in_range = False
-
+        companies = frappe.get_all('Company', {
+            'custom_zatca_invoice_enabled': 1,
+            'custom_phase_1_or_2': 'Phase-2',
+            'custom_select': "Production"
+        })
+        companies_list = [d.get('name') for d in companies]
         # for company in companies:
         #     start_end_times = [
         #         (company.custom_start_time, company.custom_end_time),
@@ -93,17 +99,18 @@ def submit_invoices_to_zatca_background():
         # if not any_company_in_range:
         #     return
 
-        # past_24_hours_time = add_to_date(now_datetime(), hours=-24)
+        past_24_hours_time = add_to_date(now_datetime(), hours=-72)
         not_submitted_invoices = frappe.get_all(
             "Sales Invoice",
             filters=[
-                # ["creation", ">=", past_24_hours_time],
+                ["creation", ">=", past_24_hours_time],
                 ["docstatus", "in", [0, 1]],
                 [
                     "custom_zatca_status",
                     "in",
                     ["Not Submitted", "503 Service Unavailable"],
                 ],
+                ['company','in',companies_list]
             ],
             fields=["name", "docstatus", "company"],
         )
@@ -112,7 +119,8 @@ def submit_invoices_to_zatca_background():
             try:
                 sales_invoice_doc = frappe.get_doc("Sales Invoice", invoice["name"])
                 company_doc = frappe.get_doc("Company", sales_invoice_doc.company)
-                if not (company_doc.get('custom_zatca_invoice_enabled') == 1 and company_doc.get('custom_phase_1_or_2') == 'Phase-2'):
+                if not (company_doc.get('custom_zatca_invoice_enabled') == 1 and company_doc.get(
+                        'custom_phase_1_or_2') == 'Phase-2'):
                     continue
                 if sales_invoice_doc.docstatus == 1:
                     zatca_background_on_submit(
@@ -139,7 +147,7 @@ def submit_invoices_to_zatca_background():
 def submit_invoices_to_zatca_background_process():
     """Submit invoices to ZATCA only if at least one company falls within the time range."""
     try:
-        past_24_hours_time = add_to_date(now_datetime(), hours=-48)
+        past_24_hours_time = add_to_date(now_datetime(), hours=-72)
         sales_invoices = frappe.get_all(
             "Sales Invoice",
             filters=[
@@ -175,6 +183,5 @@ def submit_invoices_to_zatca_background_process():
 
     except Exception:
         frappe.log_error(frappe.get_traceback(), "ZATCA Background Job Error")
-
 
 # submit_invoices_to_zatca_background_process()

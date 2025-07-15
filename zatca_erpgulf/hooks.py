@@ -222,30 +222,30 @@ from . import __version__ as app_version
 # ]
 
 # schedule for every 10 minutes every day 24 hours
-scheduler_events = {
-    "cron": {
-        "*/10 * * * *": [
-            "zatca_erpgulf.zatca_erpgulf.scheduler_event.submit_invoices_to_zatca_background_process"
-        ]
-    }
-}
-
-
-# # schdule for every 10 minutes from 1 am to 7 am
 # scheduler_events = {
 #     "cron": {
-#         "*/10 1-7 * * * ": [
+#         "*/10 * * * *": [
 #             "zatca_erpgulf.zatca_erpgulf.scheduler_event.submit_invoices_to_zatca_background_process"
 #         ]
 #     }
 # }
 
+
+# # schdule for every 10 minutes from 1 am to 7 am
+scheduler_events = {
+    "cron": {
+        "*/10 1-7 * * * ": [
+            "zatca_erpgulf.zatca_erpgulf.scheduler_event.submit_invoices_to_zatca_background_process"
+        ]
+    }
+}
+
 doc_events = {
     "Sales Invoice": {
         "before_cancel": "zatca_erpgulf.zatca_erpgulf.validations.before_save",
         "before_submit": "zatca_erpgulf.zatca_erpgulf.tax_error.validate_sales_invoice_taxes",
-        "after_insert": "zatca_erpgulf.zatca_erpgulf.validations.duplicating_invoice",
-        "on_submit": "zatca_erpgulf.zatca_erpgulf.sign_invoice.zatca_background_on_submit",
+        "after_insert": "zatca_erpgulf.zatca_erpgulf.validations.duplicating_invoice"
+        # "on_submit": "zatca_erpgulf.zatca_erpgulf.sign_invoice.zatca_background_on_submit",
     }
     # "POS Invoice": {
     #     "before_cancel": "zatca_erpgulf.zatca_erpgulf.validations.before_save",
@@ -261,12 +261,12 @@ doctype_js = {
         "public/js/badge.js",
     ],
     "Company": "public/js/company.js",
-    "POS Invoice": ["public/js/our_pos_invoice.js", "public/js/badge_pos.js"],
+    # "POS Invoice": ["public/js/our_pos_invoice.js", "public/js/badge_pos.js"],
 }
 
 doctype_list_js = {
     "Sales Invoice": "public/js/resubmit.js",
-    "POS Invoice": "public/js/resubmitpos.js",
+    # "POS Invoice": "public/js/resubmitpos.js",
 }
 
 
