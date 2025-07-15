@@ -124,13 +124,15 @@ def submit_invoices_to_zatca_background():
                     continue
                 if sales_invoice_doc.docstatus == 1:
                     zatca_background_on_submit(
-                        sales_invoice_doc, bypass_background_check=True
+                        sales_invoice_doc, bypass_background_check=True,
+                        from_invoice=False
                     )
 
                 elif company_doc.custom_submit_or_not == 1:
                     sales_invoice_doc.submit()
                     zatca_background_on_submit(
-                        sales_invoice_doc, bypass_background_check=True
+                        sales_invoice_doc, bypass_background_check=True,
+                        from_invoice=False
                     )
 
                 frappe.db.commit()
