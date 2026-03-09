@@ -15,7 +15,8 @@ def validate_sales_invoice_taxes(doc, event=None):
     """
     is_gpos_installed = "gpos" in frappe.get_installed_apps()
     field_exists = frappe.get_meta(doc.doctype).has_field("custom_unique_id")
-
+    if doc.get('is_opening') == "Yes":
+        return
     if is_gpos_installed and field_exists:
         if doc.custom_unique_id and not doc.custom_zatca_pos_name:
             frappe.throw(

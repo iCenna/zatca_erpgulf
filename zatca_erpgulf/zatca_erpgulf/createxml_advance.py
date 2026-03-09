@@ -146,7 +146,8 @@ def create_csr(zatca_doc, portal_type, company_abbr):
         if portal_type == "Sandbox":
             customoid = encode_customoid("TESTZATCA-Code-Signing")
         elif portal_type == "Simulation":
-            customoid = encode_customoid("PREZATCA-Code-Signing")
+            # customoid = encode_customoid("PREZATCA-Code-Signing")
+            customoid = encode_customoid("ZATCA-Code-Signing")
         else:
             customoid = encode_customoid("ZATCA-Code-Signing")
 
