@@ -1209,6 +1209,7 @@ def zatca_background(invoice_number, source_doc, bypass_background_check=False):
                         sales_invoice_doc, custom_xml_field, invoice_number
                     )
                 else:
+                    frappe.log_error("Without XML",True)
                     zatca_call_withoutxml(
                         invoice_number,
                         "0",
