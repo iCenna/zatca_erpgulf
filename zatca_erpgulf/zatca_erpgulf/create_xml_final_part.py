@@ -212,8 +212,8 @@ def tax_data_with_template_nominal(invoice, sales_invoice_doc):
             cac_legalmonetarytotal, "cbc:LineExtensionAmount"
         )
         cbc_lineextensionamount.set("currencyID", sales_invoice_doc.currency)
-        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
-
+        # cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
+        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.net_total), 2))
         cbc_taxexclusiveamount = ET.SubElement(
             cac_legalmonetarytotal, "cbc:TaxExclusiveAmount"
         )
@@ -486,7 +486,8 @@ def tax_data_nominal(invoice, sales_invoice_doc):
         )
         cbc_lineextensionamount.set("currencyID", sales_invoice_doc.currency)
         if sales_invoice_doc.taxes[0].included_in_print_rate == 0:
-            cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
+            # cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
+            cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.net_total), 2))
         else:
             if difference == 0.01:
                 cbc_lineextensionamount.text = str(total_line_extension)

@@ -297,7 +297,8 @@ def tax_data(invoice, sales_invoice_doc):
             "currencyID", sales_invoice_doc.paid_from_account_currency
         )
         # if sales_invoice_doc.taxes[0].included_in_print_rate == 0:
-        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
+        # cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
+        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.net_total), 2))
         cbc_taxexclusiveamount = ET.SubElement(
             cac_legalmonetarytotal, "cbc:TaxExclusiveAmount"
         )
