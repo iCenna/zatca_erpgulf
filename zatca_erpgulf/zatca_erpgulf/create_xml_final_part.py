@@ -88,8 +88,11 @@ def tax_data_with_template_nominal(invoice, sales_invoice_doc):
                     "exemption_reason_code": item_tax_template.custom_exemption_reason_code,
                 }
             if sales_invoice_doc.currency == "SAR":
+                # tax_category_totals[zatca_tax_category]["taxable_amount"] += abs(
+                #     item.base_amount
+                # )
                 tax_category_totals[zatca_tax_category]["taxable_amount"] += abs(
-                    item.base_amount
+                    item.net_amount
                 )
             else:
                 tax_category_totals[zatca_tax_category]["taxable_amount"] += abs(
