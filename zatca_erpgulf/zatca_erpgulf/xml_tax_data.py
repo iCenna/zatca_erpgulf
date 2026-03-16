@@ -268,8 +268,7 @@ def tax_data(invoice, sales_invoice_doc):
         )
         cbc_lineextensionamount.set("currencyID", sales_invoice_doc.currency)
         if sales_invoice_doc.taxes[0].included_in_print_rate == 0:
-            # cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
-            cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.net_total), 2))
+            cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
         else:
 
             cbc_lineextensionamount.text = str(
@@ -688,8 +687,7 @@ def tax_data_with_template(invoice, sales_invoice_doc):
             cac_legalmonetarytotal, "cbc:LineExtensionAmount"
         )
         cbc_lineextensionamount.set("currencyID", sales_invoice_doc.currency)
-        # cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
-        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.net_total), 2))
+        cbc_lineextensionamount.text = str(round(abs(sales_invoice_doc.total), 2))
 
         # Tax-Exclusive Amount (base_total - base_discount_amount)
         cbc_taxexclusiveamount = ET.SubElement(
