@@ -104,13 +104,14 @@ def submit_invoices_to_zatca_background():
             "Sales Invoice",
             filters=[
                 ["creation", ">=", past_24_hours_time],
-                ["docstatus", "in", [0, 1]],
+                ["docstatus", "in", [1]],
+                ["is_opening", "in", ["No"]],
                 [
                     "custom_zatca_status",
                     "in",
                     ["Not Submitted", "503 Service Unavailable"],
                 ],
-                ['company','in',companies_list]
+                ['company', 'in', companies_list]
             ],
             fields=["name", "docstatus", "company"],
         )
