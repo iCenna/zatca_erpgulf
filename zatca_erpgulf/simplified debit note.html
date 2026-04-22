@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simplified Debit Note - ACC-SINV-2024-00028</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; font-size: 14px; background: #f4f6f8; color: #333; padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+    .header { background: #1a4a7a; color: #fff; padding: 24px 30px; }
+    .header h1 { font-size: 22px; margin-bottom: 4px; }
+    .header .subtitle { font-size: 13px; opacity: 0.8; }
+    .badge { display: inline-block; background: #e8a020; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 8px; }
+    .section { padding: 20px 30px; border-bottom: 1px solid #eee; }
+    .section:last-child { border-bottom: none; }
+    .section-title { font-size: 13px; font-weight: bold; text-transform: uppercase; color: #1a4a7a; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px 20px; }
+    .field label { font-size: 11px; color: #888; display: block; margin-bottom: 2px; }
+    .field span { font-size: 14px; color: #222; font-weight: 500; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    thead tr { background: #1a4a7a; color: #fff; }
+    thead th { padding: 10px 12px; text-align: left; font-size: 13px; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f8f9fb; }
+    tbody td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #eee; }
+    .text-right { text-align: right; }
+    .totals-table { width: 100%; max-width: 380px; margin-left: auto; margin-top: 10px; }
+    .totals-table td { padding: 7px 10px; font-size: 13px; }
+    .totals-table tr:last-child td { font-weight: bold; font-size: 15px; color: #1a4a7a; border-top: 2px solid #1a4a7a; padding-top: 10px; }
+    .sig-box { background: #f8f9fb; border: 1px solid #ddd; border-radius: 6px; padding: 14px 16px; }
+    .sig-box .sig-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+    .sig-box .sig-row label { color: #888; width: 140px; flex-shrink: 0; }
+    .sig-box .sig-row span { word-break: break-all; color: #444; }
+    .qr-box { background: #eef2f7; border: 1px solid #c9d6e3; border-radius: 6px; padding: 14px 16px; }
+    .qr-box p { font-size: 12px; color: #555; margin-bottom: 6px; }
+    .qr-box code { font-size: 11px; word-break: break-all; color: #333; background: #fff; border: 1px solid #ddd; padding: 8px; border-radius: 4px; display: block; }
+    .tag { display: inline-block; background: #e6f0fb; color: #1a4a7a; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 4px; }
+    .exempt-note { font-size: 12px; color: #c47a00; background: #fff8e8; border: 1px solid #f0d080; border-radius: 4px; padding: 6px 10px; margin-top: 6px; }
+    @media (max-width: 600px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Simplified Debit Note</h1>
+    <div class="subtitle">ZATCA UBL 2.1 — Simplified Invoice (B2C)</div>
+    <div class="badge">Invoice Type: 383 &nbsp;|&nbsp; Profile: reporting:1.0</div>
+  </div>
+
+  <!-- Invoice Info -->
+  <div class="section">
+    <div class="section-title">Invoice Details</div>
+    <div class="grid3">
+      <div class="field"><label>Invoice ID</label><span>ACC-SINV-2024-00028</span></div>
+      <div class="field"><label>UUID</label><span style="font-size:12px">58be31f0-c687-11ef-9a48-020017019f27</span></div>
+      <div class="field"><label>ICV (Counter)</label><span>202400028</span></div>
+      <div class="field"><label>Issue Date</label><span>2024-08-21</span></div>
+      <div class="field"><label>Issue Time</label><span>09:58:53</span></div>
+      <div class="field"><label>Delivery Date</label><span>2024-08-22</span></div>
+      <div class="field"><label>Currency</label><span>SAR</span></div>
+      <div class="field"><label>Tax Currency</label><span>SAR</span></div>
+      <div class="field"><label>Payment Means</label><span>30 — Cancellation</span></div>
+      <div class="field"><label>Billing Reference</label><span>6666666</span></div>
+    </div>
+  </div>
+
+  <!-- Supplier -->
+  <div class="section">
+    <div class="section-title">Supplier (Accounting Supplier Party)</div>
+    <div class="grid2">
+      <div class="field"><label>Registered Name</label><span>Zatca(Demo)</span></div>
+      <div class="field"><label>VAT Number (TRN)</label><span>399999999900003</span></div>
+      <div class="field"><label>Registration ID (CRN)</label><span>1234567</span></div>
+      <div class="field"><label>Street</label><span>riyadh</span></div>
+      <div class="field"><label>Building Number</label><span>4444</span></div>
+      <div class="field"><label>City</label><span>riyadh</span></div>
+      <div class="field"><label>Postal Zone</label><span>87695</span></div>
+      <div class="field"><label>Country</label><span>Saudi Arabia (SA)</span></div>
+    </div>
+  </div>
+
+  <!-- Customer -->
+  <div class="section">
+    <div class="section-title">Customer (Accounting Customer Party)</div>
+    <div class="grid2">
+      <div class="field"><label>Registered Name</label><span>Grant Plastics Ltd.</span></div>
+      <div class="field"><label>National ID (NAT)</label><span>1070279888</span></div>
+      <div class="field"><label>Street</label><span>wdegtrhjm</span></div>
+      <div class="field"><label>Building Number</label><span>2222</span></div>
+      <div class="field"><label>District</label><span>king abdul azeez road</span></div>
+      <div class="field"><label>City</label><span>rfgthyuj</span></div>
+      <div class="field"><label>Postal Zone</label><span>78945</span></div>
+      <div class="field"><label>Country</label><span>Saudi Arabia (SA)</span></div>
+    </div>
+  </div>
+
+  <!-- Invoice Lines -->
+  <div class="section">
+    <div class="section-title">Invoice Lines</div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item</th>
+          <th class="text-right">Qty (Unit)</th>
+          <th class="text-right">Unit Price (SAR)</th>
+          <th class="text-right">Line Amount (SAR)</th>
+          <th class="text-right">Tax (SAR)</th>
+          <th class="text-right">Rounding Amt (SAR)</th>
+          <th>Tax Cat.</th>
+          <th class="text-right">VAT %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>SKU001</td>
+          <td class="text-right">50.0 Nos</td>
+          <td class="text-right">3.650000</td>
+          <td class="text-right">182.50</td>
+          <td class="text-right">0.00</td>
+          <td class="text-right">182.50</td>
+          <td>Z</td>
+          <td class="text-right">0.00%</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>SKU001</td>
+          <td class="text-right">30.0 Nos</td>
+          <td class="text-right">3.650000</td>
+          <td class="text-right">109.50</td>
+          <td class="text-right">0.00</td>
+          <td class="text-right">109.50</td>
+          <td>Z</td>
+          <td class="text-right">0.00%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tax Summary -->
+  <div class="section">
+    <div class="section-title">Tax Summary</div>
+    <div class="grid2">
+      <div>
+        <div class="field"><label>Tax Category</label><span><span class="tag">Z — Zero Rated</span></span></div>
+        <div class="field" style="margin-top:8px"><label>VAT %</label><span>0.00%</span></div>
+        <div class="field" style="margin-top:8px"><label>Taxable Amount</label><span>292.00 SAR</span></div>
+        <div class="field" style="margin-top:8px"><label>Tax Amount</label><span>0.00 SAR</span></div>
+        <div class="exempt-note">
+          Exemption Code: <strong>VATEX-SA-HEA</strong><br/>
+          Reason: Private healthcare to citizen.
+        </div>
+      </div>
+      <div>
+        <div class="field"><label>Allowance / Discount</label><span>0.00 SAR (Reason: None)</span></div>
+        <div class="field" style="margin-top:8px"><label>Allowance Category</label><span>Z / 0.00%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Totals -->
+  <div class="section">
+    <div class="section-title">Monetary Totals</div>
+    <table class="totals-table">
+      <tbody>
+        <tr><td>Line Extension Amount</td><td class="text-right">292.00 SAR</td></tr>
+        <tr><td>Tax Exclusive Amount</td><td class="text-right">292.00 SAR</td></tr>
+        <tr><td>Allowance Total</td><td class="text-right">0.00 SAR</td></tr>
+        <tr><td>Total Tax Amount</td><td class="text-right">0.00 SAR</td></tr>
+        <tr><td>Tax Inclusive Amount</td><td class="text-right">292.00 SAR</td></tr>
+        <tr><td><strong>Payable Amount</strong></td><td class="text-right"><strong>292.00 SAR</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Signature -->
+  <div class="section">
+    <div class="section-title">Digital Signature (XAdES)</div>
+    <div class="sig-box">
+      <div class="sig-row"><label>Signing Time</label><span>2024-12-30T08:23:28</span></div>
+      <div class="sig-row"><label>Signature Method</label><span>ecdsa-sha256</span></div>
+      <div class="sig-row"><label>Canonicalization</label><span>xml-c14n11</span></div>
+      <div class="sig-row"><label>Invoice Digest (SHA-256)</label><span>e0TolC+XLB84+4Kbc1dDEWq3eDjAEMpIJlCoMWWeNwU=</span></div>
+      <div class="sig-row"><label>Signature Value</label><span>MEUCIQC7ERieE19H3qmp7ETYGgyb+3GINognZ8+2+805qL5QXwIgHjLIJtUpPn4x2crnuG+NnBSTPvJ/Xe9ahebfaWiBM8g=</span></div>
+      <div class="sig-row"><label>Certificate Issuer</label><span>CN=PRZEINVOICESCA4-CA, DC=extgazt, DC=gov, DC=local</span></div>
+      <div class="sig-row"><label>Certificate Serial</label><span>379112742831380471835263969587287663520528387</span></div>
+    </div>
+  </div>
+
+  <!-- QR Code -->
+  <div class="section">
+    <div class="section-title">QR Code (TLV Base64)</div>
+    <div class="qr-box">
+      <p>The QR code embedded in this invoice encodes seller name, VAT number, invoice date/time, total with VAT, and VAT amount per ZATCA TLV specification.</p>
+      <code>AQtaYXRjYShEZW1vKQIPMzk5OTk5OTk5OTAwMDAzAxMyMDI0LTA4LTIxVDA5OjU4OjUzBAUyOTIuMAUDMC4wBixlMFRvbEMrWExCODQrNEtiYzFkREVXcTNlRGpBRU1wSUpsQ29NV1dlTndVPQdgTUVVQ0lRQzdFUmllRTE5SDNxbXA3RVRZR2d5YiszR0lOb2duWjgrMis4MDVxTDVRWHdJZ0hqTElKdFVwUG40eDJjcm51RytObkJTVFB2Si9YZTlhaGViZmFXaUJNOGc9CFgwVjAQBgcqhkjOPQIBBgUrgQQACgNCAAShYIprRJr0UgStM6/S4CQLVUgpfFT2c+nHa+V/jKEx6PLxzTZcluUOru0/J2jyarRqE4yY2jyDCeLte3UpP1R4CUcwRQIhALE/ichmnWXCUKUbca3yci8oqwaLvFdHVjQrveI9uqAbAiA9hC4M8jgMBADPSzmd2uiPJA6gKR3LE03U75eqbC/rXA==</code>
+    </div>
+  </div>
+
+  <!-- PIH -->
+  <div class="section">
+    <div class="section-title">Previous Invoice Hash (PIH)</div>
+    <div class="qr-box">
+      <code>rVYqU1DYOQxKnoH1O7sqgBAZIVsbT2cNmoeVr/NudtY=</code>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

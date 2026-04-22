@@ -243,7 +243,10 @@ scheduler_events = {
 doc_events = {
     "Sales Invoice": {
         "before_cancel": "zatca_erpgulf.zatca_erpgulf.validations.before_save",
-        "before_submit": "zatca_erpgulf.zatca_erpgulf.tax_error.validate_sales_invoice_taxes",
+        "before_submit": [
+            "zatca_erpgulf.zatca_erpgulf.tax_error.validate_sales_invoice_taxes",
+            "zatca_erpgulf.zatca_erpgulf.validations.validate_debit_note",
+        ],
         "after_insert": "zatca_erpgulf.zatca_erpgulf.validations.duplicating_invoice",
         "on_submit": "zatca_erpgulf.zatca_erpgulf.sign_invoice.zatca_background_on_submit"
     }

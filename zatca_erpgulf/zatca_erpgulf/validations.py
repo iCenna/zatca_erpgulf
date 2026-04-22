@@ -43,6 +43,29 @@ def duplicating_invoice(doc, method=None):  # pylint: disable=unused-argument
         doc.save()
 
 
+def validate_debit_note(doc, method=None):  # pylint: disable=unused-argument
+    """
+    Validates debit note constraints before submission.
+    A ZATCA debit note (type 383) must reference an existing submitted invoice
+    and must not itself be a return document.
+    """
+    if not getattr(doc, "custom_is_debit_note", 0):
+        return
+    if doc.is_return:
+        frappe.throw(
+            _("A Debit Note cannot be a return document. Uncheck 'Is Return' or 'Is Debit Note (ZATCA 383)'.")
+        )
+    if not doc.return_against:
+        frappe.throw(
+            _("'Return Against' is required for a Debit Note. Please reference the original invoice.")
+        )
+    original_status = frappe.db.get_value("Sales Invoice", doc.return_against, "docstatus")
+    if original_status != 1:
+        frappe.throw(
+            _(f"The referenced invoice '{doc.return_against}' must be submitted before creating a Debit Note against it.")
+        )
+
+
 def test_save_validate(doc, method=None):  # pylint: disable=unused-argument
     """
     Used for testing purposes to display a message during save validation.

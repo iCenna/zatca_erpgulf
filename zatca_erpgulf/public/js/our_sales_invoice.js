@@ -73,8 +73,27 @@ frappe.realtime.on('hide_gif', () => {
     $('#custom-gif-overlay').remove();
 });
 
+function zatca_toggle_debit_note_ui(frm) {
+    const is_debit_note = frm.doc.custom_is_debit_note;
+    frm.set_df_property("return_against", "reqd", is_debit_note ? 1 : 0);
+    const banner_id = "zatca-debit-note-banner";
+    frm.layout.wrapper.find(`#${banner_id}`).remove();
+    if (is_debit_note && frm.doc.docstatus === 0) {
+        frm.layout.wrapper.find(".form-page").first().prepend(
+            `<div id="${banner_id}" class="alert alert-warning" style="margin:10px 15px 0;border-left:4px solid #e8a020;">
+                <strong>ZATCA Debit Note (383)</strong> — This invoice will be reported to ZATCA as a Debit Note.
+                Make sure <em>Return Against</em> references the original invoice.
+            </div>`
+        );
+    }
+}
+
 frappe.ui.form.on("Sales Invoice", {
+    custom_is_debit_note: function (frm) {
+        zatca_toggle_debit_note_ui(frm);
+    },
     refresh: function (frm) {
+        zatca_toggle_debit_note_ui(frm);
         if (frm.doc.docstatus === 1 && !["CLEARED", "REPORTED"].includes(frm.doc.custom_zatca_status)) {
             frm.add_custom_button(__("Send invoice to Zatca"), function () {
                 frm.call({

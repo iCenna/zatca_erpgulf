@@ -296,12 +296,15 @@ def invoice_typecode_simplified(invoice, sales_invoice_doc):
         ]
         five_digit_code = "".join("1" if checkbox else "0" for checkbox in checkbox_map)
         final_code = base_code + five_digit_code
-        if sales_invoice_doc.is_return == 0:
+        if getattr(sales_invoice_doc, "custom_is_debit_note", 0):
             cbc_invoicetypecode.set("name", final_code)
-            cbc_invoicetypecode.text = "388"
+            cbc_invoicetypecode.text = "383"
         elif sales_invoice_doc.is_return == 1:
             cbc_invoicetypecode.set("name", final_code)
             cbc_invoicetypecode.text = "381"
+        else:
+            cbc_invoicetypecode.set("name", final_code)
+            cbc_invoicetypecode.text = "388"
 
         return invoice
     except (ET.ParseError, AttributeError, ValueError) as e:
@@ -326,12 +329,15 @@ def invoice_typecode_standard(invoice, sales_invoice_doc):
 
         five_digit_code = "".join("1" if checkbox else "0" for checkbox in checkbox_map)
         final_code = base_code + five_digit_code
-        if sales_invoice_doc.is_return == 0:
+        if getattr(sales_invoice_doc, "custom_is_debit_note", 0):
             cbc_invoicetypecode.set("name", final_code)
-            cbc_invoicetypecode.text = "388"
+            cbc_invoicetypecode.text = "383"
         elif sales_invoice_doc.is_return == 1:
             cbc_invoicetypecode.set("name", final_code)
             cbc_invoicetypecode.text = "381"
+        else:
+            cbc_invoicetypecode.set("name", final_code)
+            cbc_invoicetypecode.text = "388"
         return invoice
     except (ET.ParseError, AttributeError, ValueError) as e:
         frappe.throw(_(f"Error in standard invoice type code: {e}"))
@@ -348,7 +354,7 @@ def doc_reference(invoice, sales_invoice_doc, invoice_number):
         cbc_documentcurrencycode.text = sales_invoice_doc.currency
         cbc_taxcurrencycode = ET.SubElement(invoice, "cbc:TaxCurrencyCode")
         cbc_taxcurrencycode.text = "SAR"  # SAR is as zatca requires tax amount in SAR
-        if sales_invoice_doc.is_return == 1:
+        if sales_invoice_doc.is_return == 1 or getattr(sales_invoice_doc, "custom_is_debit_note", 0):
             invoice = billing_reference_for_credit_and_debit_note(
                 invoice, sales_invoice_doc
             )
