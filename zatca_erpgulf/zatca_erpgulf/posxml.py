@@ -17,6 +17,7 @@ import json
 from frappe.utils.data import get_time
 from frappe import _
 import frappe
+from zatca_erpgulf.zatca_erpgulf.enums import get_refund_reason_description
 
 
 def get_tax_for_item(full_string, item):
@@ -706,9 +707,11 @@ def delivery_and_paymentmeans(invoice, pos_invoice_doc, is_return):
         cbc_paymentmeanscode = ET.SubElement(cac_paymentmeans, "cbc:PaymentMeansCode")
         cbc_paymentmeanscode.text = "30"
 
-        if is_return == 1:
+        is_debit_note = getattr(pos_invoice_doc, "custom_is_debit_note", 0)
+        if is_return == 1 or is_debit_note:
+            reason_code = getattr(pos_invoice_doc, "custom_debit_note_reason", None)
             cbc_instructionnote = ET.SubElement(cac_paymentmeans, "cbc:InstructionNote")
-            cbc_instructionnote.text = "Cancellation"
+            cbc_instructionnote.text = get_refund_reason_description(reason_code or 4)
         return invoice
     except (ET.ParseError, AttributeError, ValueError) as e:
         frappe.throw(_(f"Delivery and payment means failed: {e}"))

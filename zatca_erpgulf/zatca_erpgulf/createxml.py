@@ -10,6 +10,7 @@ from frappe import _
 import frappe
 from frappe.utils.data import get_time
 from zatca_erpgulf.zatca_erpgulf.country_code import country_code_mapping
+from zatca_erpgulf.zatca_erpgulf.enums import get_refund_reason_description
 
 CBC_ID = "cbc:ID"
 DS_TRANSFORM = "ds:Transform"
@@ -759,11 +760,13 @@ def delivery_and_payment_means(invoice, sales_invoice_doc, is_return):
         )
         cbc_payment_means_code.text = "30"
 
-        if is_return == 1:
+        is_debit_note = getattr(sales_invoice_doc, "custom_is_debit_note", 0)
+        if is_return == 1 or is_debit_note:
+            reason_code = getattr(sales_invoice_doc, "custom_debit_note_reason", None)
             cbc_instruction_note = ET.SubElement(
                 cac_payment_means, "cbc:InstructionNote"
             )
-            cbc_instruction_note.text = "Cancellation"
+            cbc_instruction_note.text = get_refund_reason_description(reason_code or 4)
 
         return invoice
 
