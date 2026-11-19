@@ -25,6 +25,7 @@
 <script src="../zatca_erpgulf/public/js/badge.js"></script>
 <script src="../zatca_erpgulf/public/js/badge_pos.js"></script>
 <script>
+async function checkBadges() {
     const form = document.querySelector('#form');
     const field = form.firstElementChild;
     const controls = [...form.children].slice(1);
@@ -32,7 +33,12 @@
     const assert = (condition, message) => { if (!condition) throw new Error(message); };
     const frm = {
         doc: {},
-        set_df_property(name, property, html) { field.innerHTML = html; },
+        set_df_property(name, property, html) {
+            field.innerHTML = html;
+            for (const image of field.querySelectorAll('img')) {
+                image.src = new URL('../zatca_erpgulf/public/js/badges/' + image.getAttribute('src').split('/').pop(), location.href);
+            }
+        },
         refresh_field() {},
     };
     let checks = 0;
@@ -53,16 +59,18 @@
                         custom_zatca_full_response: 'Zatca Response: ' + JSON.stringify({validationResults: {status: validation}}),
                     };
                     handlers[doctype].refresh(frm);
-                    const ribbon = field.querySelector('.zatca-status-ribbon');
                     const image = field.querySelector('img');
-                    assert((ribbon?.textContent || image?.alt) === expected, doctype + ': incorrect label');
+                    assert(image?.alt === expected, doctype + ': incorrect label');
+                    await image.decode();
+                    assert(image.naturalWidth === image.naturalHeight, 'Badge asset is not square');
+                    assert(image.width === 110 && image.height === 110, 'Badge image is distorted');
                     assert(positions().join() === baseline, doctype + ': fields moved at width ' + width);
                     assert(getComputedStyle(field).height === '0px', 'Badge field takes up space');
                     assert(getComputedStyle(field.firstElementChild).pointerEvents === 'none', 'Badge blocks input');
-                    if (ribbon) {
-                        assert(!field.textContent.includes('ZATCA'), 'Unexpected ZATCA prefix');
-                        const color = validation === 'WARNING' ? 'rgb(255, 165, 0)' : 'rgb(46, 125, 50)';
-                        assert(getComputedStyle(ribbon).backgroundColor === color, 'Incorrect status color');
+                    assert(!field.querySelector('span'), 'Badge must use the existing PNG asset');
+                    if (status === 'CLEARED' && validation !== 'FAIL') {
+                        const filename = validation === 'WARNING' ? 'zatca-cleared-warning.png' : 'zatca-cleared.png';
+                        assert(image.src.endsWith(filename), 'Incorrect clearance image');
                     }
                     checks++;
                 }
@@ -79,9 +87,12 @@
         form.style.width = 'min(100%, 700px)';
         frm.doc = { custom_zatca_status: 'CLEARED', custom_zatca_full_response: 'Zatca Response: {"validationResults":{"status":"WARNING"}}' };
         handlers['Sales Invoice'].refresh(frm);
+        await field.querySelector('img').decode();
         document.querySelector('#result').textContent = 'PASS: ' + checks + ' status and layout checks';
     } catch (error) {
         document.querySelector('#result').textContent = 'FAIL: ' + error.message;
         throw error;
     }
+}
+checkBadges();
 </script>

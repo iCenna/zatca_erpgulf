@@ -22,25 +22,3 @@
     width: 110px;
     height: auto;
 }
-
-.zatca-status-ribbon {
-    position: absolute;
-    top: 42px;
-    right: -28px;
-    width: 166px;
-    padding: 6px 0;
-    transform: rotate(45deg);
-    background: #2e7d32;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 16px;
-    text-align: center;
-    white-space: nowrap;
-    direction: ltr;
-}
-
-.zatca-status-ribbon-warning {
-    background: #ffa500;
-    color: #1f272e;
-}

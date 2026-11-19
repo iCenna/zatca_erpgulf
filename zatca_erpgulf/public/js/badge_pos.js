@@ -36,7 +36,7 @@ frappe.ui.form.on('POS Invoice', {
                 if (status === 'PASS') {
                     if (reportingStatus === 'CLEARED') {
                         console.log('PASS - Cleared');
-                        badgeHtml = '<div class="zatca-badge-container"><span class="zatca-status-ribbon">Cleared</span></div>';
+                        badgeHtml = '<div class="zatca-badge-container"><img src="/assets/zatca_erpgulf/js/badges/zatca-cleared.png" alt="Cleared" class="zatca-badge" width="110"></div>';
 
                     } else if (reportingStatus === 'REPORTED') {
                         console.log('PASS - Reported');
@@ -48,7 +48,7 @@ frappe.ui.form.on('POS Invoice', {
                 else if (status === 'WARNING') {
                     if (reportingStatus === 'CLEARED') {
                         console.log('WARNING - Cleared with Warning');
-                        badgeHtml = '<div class="zatca-badge-container"><span class="zatca-status-ribbon zatca-status-ribbon-warning">Cleared with warning</span></div>';
+                        badgeHtml = '<div class="zatca-badge-container"><img src="/assets/zatca_erpgulf/js/badges/zatca-cleared-warning.png" alt="Cleared with warning" class="zatca-badge" width="110"></div>';
                     } else if (reportingStatus === 'REPORTED') {
                         console.log('WARNING - Reported with Warning');
                         badgeHtml = '<div class="zatca-badge-container"><img src="/assets/zatca_erpgulf/js/badges/zatca-reported-warning.png" alt="Reported with Warning" class="zatca-badge" width="110"></div>';
