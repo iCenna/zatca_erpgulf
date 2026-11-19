@@ -109,6 +109,12 @@
 frappe.ui.form.on('Sales Invoice', {
     refresh(frm) {
         console.log("Form refreshed!");
+        const badgeField = frm.fields_dict.custom_zatca_status_notification?.wrapper;
+        const badgeParent = badgeField?.closest('.tab-pane, .form-page');
+        if (badgeParent) {
+            badgeParent.classList.add('zatca-badge-parent');
+            badgeParent.appendChild(badgeField);
+        }
         frm.set_df_property('custom_zatca_status_notification', 'options', ' ');
 
         if (frm.doc.custom_zatca_full_response) {

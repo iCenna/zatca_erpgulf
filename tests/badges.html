@@ -6,17 +6,21 @@
 <style>
     body { margin: 32px; font: 14px Arial, sans-serif; }
     #form { box-sizing: border-box; border: 1px solid #ddd; padding: 20px; }
+    .section-body { max-width: 75%; margin: auto; }
+    .form-column { position: relative; }
     .frappe-control { margin-bottom: 24px; }
     label { display: block; margin-bottom: 8px; }
     input[type="text"] { padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
     #result { white-space: pre-wrap; }
 </style>
 <pre id="result">Running…</pre>
-<div id="form">
+<div id="form" class="form-page">
+  <div class="section-body"><div class="form-column">
     <div class="frappe-control" data-fieldname="custom_zatca_status_notification"></div>
     <div class="frappe-control"><label><input type="checkbox"> Include Payment (POS)</label></div>
     <div class="frappe-control"><label><input type="checkbox"> Is Return (Credit Note)</label></div>
     <div class="frappe-control"><label>Title</label><input type="text" value="Invoice layout"></div>
+  </div></div>
 </div>
 <script>
     const handlers = {};
@@ -27,12 +31,13 @@
 <script>
 async function checkBadges() {
     const form = document.querySelector('#form');
-    const field = form.firstElementChild;
-    const controls = [...form.children].slice(1);
+    const field = form.querySelector('[data-fieldname="custom_zatca_status_notification"]');
+    const controls = [...form.querySelectorAll('.frappe-control')].filter(control => control !== field);
     const positions = () => controls.map(control => control.getBoundingClientRect().top);
     const assert = (condition, message) => { if (!condition) throw new Error(message); };
     const frm = {
         doc: {},
+        fields_dict: { custom_zatca_status_notification: { wrapper: field } },
         set_df_property(name, property, html) {
             field.innerHTML = html;
             for (const image of field.querySelectorAll('img')) {
@@ -47,6 +52,7 @@ async function checkBadges() {
             form.style.width = width + 'px';
             const baseline = positions().join();
             for (const doctype of ['Sales Invoice', 'POS Invoice']) {
+                form.className = doctype === 'Sales Invoice' ? 'form-page' : 'tab-pane';
                 for (const [status, validation, expected] of [
                     ['CLEARED', 'PASS', 'Cleared'],
                     ['CLEARED', 'WARNING', 'Cleared with warning'],
@@ -67,6 +73,12 @@ async function checkBadges() {
                     assert(positions().join() === baseline, doctype + ': fields moved at width ' + width);
                     assert(getComputedStyle(field).height === '0px', 'Badge field takes up space');
                     assert(getComputedStyle(field.firstElementChild).pointerEvents === 'none', 'Badge blocks input');
+                    assert(field.parentElement === form, 'Badge is anchored inside the centered field column');
+                    assert(form.querySelectorAll('.zatca-badge-container').length === 1, 'Duplicate badge after refresh');
+                    const badgeRect = field.firstElementChild.getBoundingClientRect();
+                    const formRect = form.getBoundingClientRect();
+                    assert(Math.abs(badgeRect.right - (formRect.right - 13)) < 1, 'Badge is not in the document corner');
+                    assert(Math.abs(badgeRect.top - (formRect.top + 13)) < 1, 'Badge is not below the document tabs');
                     assert(!field.querySelector('span'), 'Badge must use the existing PNG asset');
                     if (status === 'CLEARED' && validation !== 'FAIL') {
                         const filename = validation === 'WARNING' ? 'zatca-cleared-warning.png' : 'zatca-cleared.png';
