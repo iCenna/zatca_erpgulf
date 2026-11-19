@@ -1,0 +1,46 @@
+.frappe-control[data-fieldname="custom_zatca_status_notification"] {
+    position: relative;
+    height: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.zatca-badge-container {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 110px;
+    height: 110px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.zatca-badge-container .zatca-badge {
+    display: block;
+    width: 110px;
+    height: auto;
+}
+
+.zatca-status-ribbon {
+    position: absolute;
+    top: 42px;
+    right: -28px;
+    width: 166px;
+    padding: 6px 0;
+    transform: rotate(45deg);
+    background: #2e7d32;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    direction: ltr;
+}
+
+.zatca-status-ribbon-warning {
+    background: #ffa500;
+    color: #1f272e;
+}

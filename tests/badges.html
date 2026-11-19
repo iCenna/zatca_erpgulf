@@ -1,0 +1,87 @@
+<!doctype html>
+<!-- Open in a browser: the result must read PASS after running both invoice scripts. -->
+<meta charset="utf-8">
+<title>ZATCA badge layout check</title>
+<link rel="stylesheet" href="../zatca_erpgulf/public/css/badge.css">
+<style>
+    body { margin: 32px; font: 14px Arial, sans-serif; }
+    #form { box-sizing: border-box; border: 1px solid #ddd; padding: 20px; }
+    .frappe-control { margin-bottom: 24px; }
+    label { display: block; margin-bottom: 8px; }
+    input[type="text"] { padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+    #result { white-space: pre-wrap; }
+</style>
+<pre id="result">Running…</pre>
+<div id="form">
+    <div class="frappe-control" data-fieldname="custom_zatca_status_notification"></div>
+    <div class="frappe-control"><label><input type="checkbox"> Include Payment (POS)</label></div>
+    <div class="frappe-control"><label><input type="checkbox"> Is Return (Credit Note)</label></div>
+    <div class="frappe-control"><label>Title</label><input type="text" value="Invoice layout"></div>
+</div>
+<script>
+    const handlers = {};
+    const frappe = { ui: { form: { on: (doctype, handler) => handlers[doctype] = handler } } };
+</script>
+<script src="../zatca_erpgulf/public/js/badge.js"></script>
+<script src="../zatca_erpgulf/public/js/badge_pos.js"></script>
+<script>
+    const form = document.querySelector('#form');
+    const field = form.firstElementChild;
+    const controls = [...form.children].slice(1);
+    const positions = () => controls.map(control => control.getBoundingClientRect().top);
+    const assert = (condition, message) => { if (!condition) throw new Error(message); };
+    const frm = {
+        doc: {},
+        set_df_property(name, property, html) { field.innerHTML = html; },
+        refresh_field() {},
+    };
+    let checks = 0;
+    try {
+        for (const width of [320, 768, 1200]) {
+            form.style.width = width + 'px';
+            const baseline = positions().join();
+            for (const doctype of ['Sales Invoice', 'POS Invoice']) {
+                for (const [status, validation, expected] of [
+                    ['CLEARED', 'PASS', 'Cleared'],
+                    ['CLEARED', 'WARNING', 'Cleared with warning'],
+                    ['REPORTED', 'PASS', 'Reported'],
+                    ['REPORTED', 'WARNING', 'Reported with Warning'],
+                    ['CLEARED', 'FAIL', 'Failed'],
+                ]) {
+                    frm.doc = {
+                        custom_zatca_status: status,
+                        custom_zatca_full_response: 'Zatca Response: ' + JSON.stringify({validationResults: {status: validation}}),
+                    };
+                    handlers[doctype].refresh(frm);
+                    const ribbon = field.querySelector('.zatca-status-ribbon');
+                    const image = field.querySelector('img');
+                    assert((ribbon?.textContent || image?.alt) === expected, doctype + ': incorrect label');
+                    assert(positions().join() === baseline, doctype + ': fields moved at width ' + width);
+                    assert(getComputedStyle(field).height === '0px', 'Badge field takes up space');
+                    assert(getComputedStyle(field.firstElementChild).pointerEvents === 'none', 'Badge blocks input');
+                    if (ribbon) {
+                        assert(!field.textContent.includes('ZATCA'), 'Unexpected ZATCA prefix');
+                        const color = validation === 'WARNING' ? 'rgb(255, 165, 0)' : 'rgb(46, 125, 50)';
+                        assert(getComputedStyle(ribbon).backgroundColor === color, 'Incorrect status color');
+                    }
+                    checks++;
+                }
+                for (const response of ['', 'invalid response', doctype === 'Sales Invoice' ? 'Error: failed' : 'NOT SUBMITTED']) {
+                    frm.doc.custom_zatca_full_response = response;
+                    handlers[doctype].refresh(frm);
+                    assert(positions().join() === baseline, 'Fields moved after clearing or error');
+                    const expected = response === '' || response === 'invalid response' ? '' : 'Failed';
+                    assert((field.querySelector('img')?.alt || field.textContent.trim()) === expected, 'Stale badge after clearing or error');
+                    checks++;
+                }
+            }
+        }
+        form.style.width = 'min(100%, 700px)';
+        frm.doc = { custom_zatca_status: 'CLEARED', custom_zatca_full_response: 'Zatca Response: {"validationResults":{"status":"WARNING"}}' };
+        handlers['Sales Invoice'].refresh(frm);
+        document.querySelector('#result').textContent = 'PASS: ' + checks + ' status and layout checks';
+    } catch (error) {
+        document.querySelector('#result').textContent = 'FAIL: ' + error.message;
+        throw error;
+    }
+</script>

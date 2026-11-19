@@ -281,5 +281,8 @@ fixtures = [
     #    {"dt": "Page", "filters": {"module": "Zatca Erpgulf"}}
 ]
 
-app_include_css = "/assets/zatca_erpgulf/css/tooltip.css"
+app_include_css = [
+    "/assets/zatca_erpgulf/css/tooltip.css",
+    "/assets/zatca_erpgulf/css/badge.css",
+]
 app_include_js = "/assets/zatca_erpgulf/js/tooltip.js"
