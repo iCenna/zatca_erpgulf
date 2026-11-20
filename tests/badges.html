@@ -82,7 +82,7 @@ async function checkBadges() {
                     assert(!field.querySelector('span'), 'Badge must use the existing PNG asset');
                     if (status === 'CLEARED' && validation !== 'FAIL') {
                         const filename = validation === 'WARNING' ? 'zatca-cleared-warning.png' : 'zatca-cleared.png';
-                        assert(image.src.endsWith(filename), 'Incorrect clearance image');
+                        assert(new URL(image.src).pathname.endsWith('/' + filename), 'Incorrect clearance image');
                     }
                     checks++;
                 }

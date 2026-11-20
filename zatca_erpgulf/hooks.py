@@ -283,6 +283,7 @@ fixtures = [
 
 app_include_css = [
     "/assets/zatca_erpgulf/css/tooltip.css",
-    "/assets/zatca_erpgulf/css/badge.css",
+    # Bump the badge asset URLs when they change because they are cached as immutable.
+    "/assets/zatca_erpgulf/css/badge.css?v=2",
 ]
 app_include_js = "/assets/zatca_erpgulf/js/tooltip.js"
