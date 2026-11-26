@@ -784,6 +784,7 @@
   "width": null
  },
  {
+  "collapsible": 1,
   "doctype": "Custom Field",
   "dt": "Sales Invoice",
   "fieldname": "custom_zatca_options",
