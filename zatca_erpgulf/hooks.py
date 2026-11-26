@@ -71,6 +71,8 @@ from . import __version__ as app_version
 # before_install = "zatca_erpgulf.install.before_install"
 # after_install = "zatca_erpgulf.install.after_install"
 
+after_migrate = "zatca_erpgulf.migrate.restore_sales_invoice_zatca_options"
+
 # Uninstallation
 # ------------
 
